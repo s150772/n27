@@ -4,8 +4,10 @@
   "description": "Meine tolle Smartphone-BANK",
   "main": "server.js",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "ejs": "^2.6.1",
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "nodemon": "^1.18.10"
   },
   "devDependencies": {},
   "scripts": {
