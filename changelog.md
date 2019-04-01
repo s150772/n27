@@ -1,11 +1,11 @@
-#Changelog
+# Changelog
 
 ## 20190225
 
-* Heroku konfiguriert
+* heroku konfiguriert
 
 ## 20190218
 
-* Favicon eingebaubt
+* Favicon eingebaut
 * login ausprogrammiert
 * npm-Module installiert

@@ -1,49 +1,86 @@
-// Das ist ein einzeiliger Kommentar
-/*Das ist ein mehrzeiliger Kommentar*/
+class Konto{
+    constructor(){
+        this.idKonto
+        this.betrag
+        this.art
+    }
+}
 
-//Das Express-Frameword wird eingebunden.
-//Ein Framework soll die Programmierung erleichtern.
-//Das Framework muss mit npm installiert werden:
-//im Terminal: npm istall express --save
+let konto = new Konto()
+
+konto.idKonto = "1234"
+konto.betrag = 1000
+konto.art = "Girokonto"
+
+console.log(konto)
 
 const express = require('express')
-
-// Das app-Objekt wird initialisiert
-// Das app-Objekt reprensentiert den Server
-//Auf das app-Objekt werden im Folgeneden Methoden aufgerufen.
-
-const app = express()
-
-// Mit der ejs-View-Engine werden Werte von der server.js zur index-datei gegeben.
-// Muss wieder im Terminal installiert werden (npm install ejs --save)
-
-app.set('view engine', 'ejs')
-
-/* Gibt an wo meine Statischeninhalte sind. Sucht diese im Ordner 
-Bublic.*/
-
-app.use(express.static('public'))
-
-// Der Wert darf sich während der Programm Laufzeit nicht ändern 
-// Bereitet die Daten aus dem html-Formular für die Übergabe an die server.js vor
-// Dann npm installieren (npm install --save)
 const bodyParser = require('body-parser')
-
-// Das bindet den Bodyparser ein und der Wert soll wahr sein
-
+const cookieParser = require('cookie-parser')
+const app = express()
+app.set('view engine', 'ejs')
+app.use(express.static('public'))
 app.use(bodyParser.urlencoded({extended: true}))
+app.use(cookieParser())
 
-// Startet den Server
-//Der Server lauscht auf Befehle vom client (desewegen listen)
-// Port kann vom Dienst selbst ausgesucht werden
-/* Unser Rechner hat Port 3000 vorgegeben. Im Browser muss die 3000 angegeben werden.*/
+const server = app.listen(process.env.PORT || 3000, () => {
+    console.log('Server lauscht auf Port %s', server.address().port)    
+})
 
-const server = app.listen(process.env.PORT || 3000, () => {        console.log('Der Server ist erfolgreich gestartet auf Port %s', server.address().port)    })
+app.get('/',(req, res, next) => {   
 
-// Server kann durch GET-Request ereicht werden.
+    let idKunde = req.cookies['istAngemeldetAls']
+    
+    if(idKunde){
+        console.log("Kunde ist angemeldet als " + idKunde)
+        res.render('index.ejs', {                              
+        })
+    }else{
+        res.render('login.ejs', {                    
+        })    
+    }
+})
 
-app.get('/',(req, res, next) => {
-    res.render('index.ejs', {
+// Wenn die Seite localhost:3000/impressum aufgerufen wird, ...
+
+app.get('/impressum',(req, res, next) => {   
+
+    let idKunde = req.cookies['istAngemeldetAls']
+    
+    if(idKunde){
+        console.log("Kunde ist angemeldet als " + idKunde)
         
+        // ... dann wird impressum.ejs gerendert.
+        
+        res.render('impressum.ejs', {                              
+        })
+    }else{
+        res.render('login.ejs', {                    
+        })    
+    }
+})
+
+app.get('/login',(req, res, next) => {         
+    res.cookie('istAngemeldetAls', '')       
+    res.render('login.ejs', {                    
     })
+})
+
+app.post('/',(req, res, next) => {   
+    
+    const idKunde = req.body.idKunde
+    const kennwort = req.body.kennwort
+        
+    if(idKunde === "4711" && kennwort === "123"){            
+        console.log("Der Cookie wird gesetzt:")
+        res.cookie('istAngemeldetAls', idKunde)
+        res.render('index.ejs', {  
+            kunde : idKunde          
+        })
+    }else{            
+        console.log("Der Cookie wird gelöscht")
+        res.cookie('istAngemeldetAls','')
+        res.render('login.ejs', {                    
+        })
+    }
 })

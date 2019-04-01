@@ -1,6 +1,8 @@
 # N27 Smartphone Bank
 
-Entwicklung einer Smartphone Bank nach dem Vorbild der N26 Bank
+http://symbolaris.com/info/Facharbeit/Softwareentwicklung.html
+
+Entwicklung einer Smartphone Bank nach dem Vorbild der N26 Bank.
 
 ## Was soll die App können?
 
@@ -8,14 +10,14 @@ Entwicklung einer Smartphone Bank nach dem Vorbild der N26 Bank
 * Überweisen
 * Kontostand abrufen
 * Konto anlegen
-* Hilfestellung/Supportdaten/FAQ
+* Hilfestellung / Supportdaten / FAQ / Chat
 * Kontobewegungen anzeigen
-* Alle Konten in Übersicht anzeigen
-* Diverse Einstellungen
-* Kredit aufnehemen
-* Wertpapierkauf/-verkauf
+* alle Konten in Übersicht anzeigen
+* diverse Einstellungen
+* Kredit aufnehmen
+* Wertpapierkauf / - verkauf
 * Geldanlage
-* Kategorien bilden/Angaben auswerten
+* Kategorien bilden / Ausgaben auswerten
 * Daueraufträge erstellen
 * Kreditline festlegen
 
@@ -24,8 +26,13 @@ Entwicklung einer Smartphone Bank nach dem Vorbild der N26 Bank
 Alle Dateien, die etwas anzeigen sollen werden in HTML geschrieben.
 
 * Startseite (index.html)
-* Login (login.html)
+* login (login.html)
   * Benutzer-ID-Eingabe-Feld
   * Passwort-Eingabe-Feld
   * Bestätigungs-Button
+
+
+## Realisierung
+
+
 
