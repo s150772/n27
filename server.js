@@ -1,19 +1,3 @@
-class Konto{
-    constructor(){
-        this.idKonto
-        this.betrag
-        this.art
-    }
-}
-
-let konto = new Konto()
-
-konto.idKonto = "1234"
-konto.betrag = 1000
-konto.art = "Girokonto"
-
-console.log(konto)
-
 const express = require('express')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
@@ -82,5 +66,43 @@ app.post('/',(req, res, next) => {
         res.cookie('istAngemeldetAls','')
         res.render('login.ejs', {                    
         })
+    }
+})
+
+app.get('/kontoAnlegen',(req, res, next) => {   
+
+    let idKunde = req.cookies['istAngemeldetAls']
+    
+    if(idKunde){
+        console.log("Kunde ist angemeldet als " + idKunde)
+        
+        // ... dann wird impressum.ejs gerendert.
+    
+
+        res.render('kontoAnlegen.ejs', {                              
+        })
+    }else{
+        res.render('login.ejs', {                    
+        })    
+    }
+})
+
+
+//Wenn der Button auf eder kontoAnlegen-Seite
+
+app.post('/kontoAnlegen',(req, res, next) => {   
+
+    let idKunde = req.cookies['istAngemeldetAls']
+    
+    if(idKunde){
+        console.log("Kunde ist angemeldet als " + idKunde)
+        
+        // ... dann wird kontoAnlegen.ejs gerendert.
+        
+        res.render('kontoAnlegen.ejs', {                              
+        })
+    }else{
+        res.render('login.ejs', {                    
+        })    
     }
 })
