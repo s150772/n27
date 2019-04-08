@@ -1,3 +1,10 @@
+class Konto {
+    constructor() {
+      this.Kontonummer
+      this.Kontoart
+    }
+  }
+
 const express = require('express')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
@@ -69,28 +76,9 @@ app.post('/',(req, res, next) => {
     }
 })
 
+// Wenn die Seite localhost:3000/kontoAnlegen angesurft wird, ...
+
 app.get('/kontoAnlegen',(req, res, next) => {   
-
-    let idKunde = req.cookies['istAngemeldetAls']
-    
-    if(idKunde){
-        console.log("Kunde ist angemeldet als " + idKunde)
-        
-        // ... dann wird impressum.ejs gerendert.
-    
-
-        res.render('kontoAnlegen.ejs', {                              
-        })
-    }else{
-        res.render('login.ejs', {                    
-        })    
-    }
-})
-
-
-//Wenn der Button auf eder kontoAnlegen-Seite
-
-app.post('/kontoAnlegen',(req, res, next) => {   
 
     let idKunde = req.cookies['istAngemeldetAls']
     
@@ -99,7 +87,33 @@ app.post('/kontoAnlegen',(req, res, next) => {
         
         // ... dann wird kontoAnlegen.ejs gerendert.
         
-        res.render('kontoAnlegen.ejs', {                              
+        res.render('kontoAnlegen.ejs', {      
+            meldung : ""                         
+        })
+    }else{
+        res.render('login.ejs', {                        
+        })    
+    }
+})
+
+// Wenn der Button auf der kontoanlegen-Seite gedrückt wird, ...
+
+app.post('/kontoAnlegen',(req, res, next) => {   
+
+    let idKunde = req.cookies['istAngemeldetAls']
+    
+    if(idKunde){
+        console.log("Kunde ist angemeldet als " + idKunde)
+
+        let konto = new Konto()
+        konto.Kontonummer = req.body.kontonummer
+        konto.Kontoart = req.body.kontoart
+
+        
+        // ... dann wird kontoAnlegen.ejs gerendert.
+        
+        res.render('kontoAnlegen.ejs', { 
+            meldung : "Das Konto " + konto.Kontonummer + " " + konto.Kontoart + " wurde erfolgreich angelegt."                             
         })
     }else{
         res.render('login.ejs', {                    
