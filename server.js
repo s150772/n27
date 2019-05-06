@@ -6,6 +6,8 @@ class Konto {
   }
 
 const express = require('express')
+const iban = require('iban')
+const laendererkennung 
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const app = express()
@@ -109,11 +111,16 @@ app.post('/kontoAnlegen',(req, res, next) => {
         konto.Kontonummer = req.body.kontonummer
         konto.Kontoart = req.body.kontoart
 
+        let bankleitzahl = 12345678
+
+        let errechneteIban = iban.fromBBAN("DE",bankleitzahl + " " + konto.Kontonummer)
+
+console.log(errechneteIban)
         
         // ... dann wird kontoAnlegen.ejs gerendert.
         
         res.render('kontoAnlegen.ejs', { 
-            meldung : "Das Konto " + konto.Kontonummer + " " + konto.Kontoart + " wurde erfolgreich angelegt."                             
+            meldung : "Das Konto mit der Kontonummer " + konto.Kontonummer + " " + konto.Kontoart + " wurde erfolgreich angelegt."                             
         })
     }else{
         res.render('login.ejs', {                    
