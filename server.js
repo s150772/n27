@@ -2,12 +2,33 @@ class Konto {
     constructor() {
       this.Kontonummer
       this.Kontoart
+      this.Iban
     }
   }
 
-const express = require('express')
+  class Kunde{
+      constructor(){
+          this.IdKunde
+          this.Geschlecht
+          this.Vorname
+          this.Nachname
+          this.Geburtsdatum
+          this.Adresse
+          this.Kennwort    
+      }
+  }
+
+let kunde = new Kunde()
+kunde.IdKunde = 4711
+kunde.Kennwort = "123"
+kunde.Geschlecht = "weiblich"
+kunde.Vorname = "Ev"
+kunde.Nachname = "Watson"
+kunde.Geburtsdatum = "1999-12-31"
+kunde.Adresse = "Heiden"
+
 const iban = require('iban')
-const laendererkennung 
+const express = require('express')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const app = express()
@@ -17,9 +38,13 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(cookieParser())
 
 const server = app.listen(process.env.PORT || 3000, () => {
+
+    // Ausgabe von 'server lauscht ...' im Terminal
     console.log('Server lauscht auf Port %s', server.address().port)    
 })
 
+// get = über adresszeile
+// Die app.get('/') wird abgearbeitet, wenn die Startseite im Browser aufgerufen wird.
 app.get('/',(req, res, next) => {   
 
     let idKunde = req.cookies['istAngemeldetAls']
@@ -64,7 +89,7 @@ app.post('/',(req, res, next) => {
     const idKunde = req.body.idKunde
     const kennwort = req.body.kennwort
         
-    if(idKunde === "4711" && kennwort === "123"){            
+    if(idKunde === kunde.IdKunde && kennwort === kunde.Kennwort){            
         console.log("Der Cookie wird gesetzt:")
         res.cookie('istAngemeldetAls', idKunde)
         res.render('index.ejs', {  
@@ -107,11 +132,22 @@ app.post('/kontoAnlegen',(req, res, next) => {
     if(idKunde){
         console.log("Kunde ist angemeldet als " + idKunde)
 
+// let = Deklaration
+// new = Instanziierung
+// kann auch in eine Zeile geschrieben werden (sihe zeile 113)
         let konto = new Konto()
+
+
+        // Der Wert mit dem Input mit dem Namen 'kontonummer'
+        // wird zugewiesen (=) an die Eigenschaft kontonummer
+        // des objekts namens konto.
         konto.Kontonummer = req.body.kontonummer
         konto.Kontoart = req.body.kontoart
+        const bankleitzahl = 27000000
+        const leandererkennung = "DE"
+        konto.Iban = iban.fromBBAN(laendererkennung,bankleitzahl + " " + konto.Kontonummer)
 
-        let bankleitzahl = 12345678
+        
 
         let errechneteIban = iban.fromBBAN("DE",bankleitzahl + " " + konto.Kontonummer)
 
@@ -123,6 +159,7 @@ console.log(errechneteIban)
             meldung : "Das Konto mit der Kontonummer " + konto.Kontonummer + " " + konto.Kontoart + " wurde erfolgreich angelegt."                             
         })
     }else{
+        // Die login.ejs wird gerendert und als response an den browser übergeben.
         res.render('login.ejs', {                    
         })    
     }
